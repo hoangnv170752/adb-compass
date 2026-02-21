@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Trash2, Search, Package, Loader2, AlertTriangle, ToggleLeft, ToggleRight } from 'lucide-react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../../utils/tauri';
 import { toast } from 'sonner';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { modalBackdrop, modalContent } from '../../lib/animations';

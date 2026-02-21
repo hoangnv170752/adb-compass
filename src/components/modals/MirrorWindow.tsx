@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Smartphone, Home, Triangle, Square, Power, Volume2, Volume1, Sun, Camera, Video } from 'lucide-react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../../utils/tauri';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { StreamPlayer } from '../device/StreamPlayer';
 import { save } from '@tauri-apps/plugin-dialog';

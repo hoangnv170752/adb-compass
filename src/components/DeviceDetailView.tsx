@@ -4,7 +4,7 @@ import {
     ArrowLeft, Monitor, Smartphone, AppWindow,
     FolderOpen
 } from 'lucide-react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../utils/tauri';
 import { DeviceInfo, getDeviceStatusText } from '../types';
 import { pageTransition, tabContent } from '../lib/animations';
 import { DeviceOverview } from './device/DeviceOverview';

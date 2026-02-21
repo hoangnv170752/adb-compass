@@ -7,7 +7,7 @@ import {
     Home, Square, Power, Volume2, Volume1, VolumeX,
     Menu, Sun, Moon, Bell, Play, Triangle
 } from 'lucide-react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../../utils/tauri';
 import { save } from '@tauri-apps/plugin-dialog';
 import { toast } from 'sonner';
 import { DeviceInfo } from '../../types';

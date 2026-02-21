@@ -6,7 +6,7 @@ import {
     Wifi, Signal, Monitor, MemoryStick, Building2,
     Shield, Hash, Loader2
 } from 'lucide-react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../../utils/tauri';
 import { DeviceInfo } from '../../types';
 import { listContainer, listItem } from '../../lib/animations';
 import { useDeviceCache } from '../../contexts/DeviceCacheContext';

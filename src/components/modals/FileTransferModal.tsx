@@ -5,7 +5,7 @@ import {
     X, FolderOpen, File, ChevronRight, Home, RefreshCw,
     Upload, Download, Trash2, FolderPlus, Loader2, AlertTriangle
 } from 'lucide-react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../../utils/tauri';
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { toast } from 'sonner';
 import { useLanguage } from '../../contexts/LanguageContext';

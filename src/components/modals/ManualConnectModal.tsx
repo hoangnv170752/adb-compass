@@ -4,7 +4,7 @@ import { X, Wifi, Loader2, ArrowRight } from 'lucide-react';
 import { modalBackdrop, modalContent } from '../../lib/animations';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useDevices } from '../../hooks/useDevices';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../../utils/tauri';
 import { toast } from 'sonner';
 
 interface ManualConnectModalProps {

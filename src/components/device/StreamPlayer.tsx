@@ -1,7 +1,7 @@
 // StreamPlayer - Display H.264 stream using WebCodecs
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { listen } from '@tauri-apps/api/event';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../../utils/tauri';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { useLanguage } from '../../contexts/LanguageContext';
 

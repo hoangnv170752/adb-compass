@@ -5,7 +5,7 @@ import {
     RefreshCcw, Power,
     ChevronRight, Loader2, Sparkles
 } from 'lucide-react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../../utils/tauri';
 import { toast } from 'sonner';
 
 interface QuickActionMenuProps {

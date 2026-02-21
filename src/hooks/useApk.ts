@@ -1,6 +1,6 @@
 // Hook for managing APK state
 import { useState, useCallback } from 'react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../utils/tauri';
 import type { ApkInfo } from '../types';
 
 interface UseApkReturn {

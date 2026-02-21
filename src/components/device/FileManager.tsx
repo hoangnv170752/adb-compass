@@ -6,7 +6,7 @@ import {
     Trash2, FolderPlus, Loader2, AlertTriangle, HardDrive,
     Image, Film, Music, DownloadCloud, Camera
 } from 'lucide-react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../../utils/tauri';
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { toast } from 'sonner';
 import { DeviceInfo } from '../../types';

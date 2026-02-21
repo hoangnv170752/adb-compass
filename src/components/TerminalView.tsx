@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Terminal, Loader2, Trash2, Smartphone, Command, ChevronRight, Sparkles } from 'lucide-react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../utils/tauri';
 import { useDevices } from '../hooks/useDevices';
 import { Select } from './ui/Select';
 import { QuickActionMenu } from './device/QuickActionMenu';

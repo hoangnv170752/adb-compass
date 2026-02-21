@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Wifi, WifiOff, Loader2, Copy, Check, Smartphone } from 'lucide-react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../../utils/tauri';
 import { toast } from 'sonner';
 import { Select } from '../ui/Select';
 import { useLanguage } from '../../contexts/LanguageContext';

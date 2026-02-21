@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Loader2, CheckCircle2, XCircle } from 'lucide-react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../utils/tauri';
 import { toast } from 'sonner';
 import type { InstallResult } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';

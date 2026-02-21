@@ -8,7 +8,7 @@ import {
 import { toast } from 'sonner';
 import { open as openDialog, confirm } from '@tauri-apps/plugin-dialog';
 import { openUrl } from '@tauri-apps/plugin-opener';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../utils/tauri';
 import { Select } from './ui/Select';
 import { check } from '@tauri-apps/plugin-updater';
 import { useLanguage } from '../contexts/LanguageContext';

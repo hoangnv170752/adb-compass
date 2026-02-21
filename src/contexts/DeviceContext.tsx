@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
-import { invoke } from '@tauri-apps/api/core';
+import { invoke } from '../utils/tauri';
 import { listen } from '@tauri-apps/api/event';
 import { toast } from 'sonner';
 import type { DeviceInfo, AdbStatus } from '../types';
