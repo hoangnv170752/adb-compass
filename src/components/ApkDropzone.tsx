@@ -1,5 +1,5 @@
 // ApkDropzone Component - Compact APK selection with drop overlay
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileCheck, X, Package, FolderOpen } from 'lucide-react';
 import { open } from '@tauri-apps/plugin-dialog';
@@ -21,6 +21,11 @@ interface TauriDropPayload {
 export function ApkDropzone({ apkInfo, onApkSelected, onApkClear }: ApkDropzoneProps) {
     const [isDragging, setIsDragging] = useState(false);
     const { t } = useLanguage();
+    
+    const onApkSelectedRef = useRef(onApkSelected);
+    onApkSelectedRef.current = onApkSelected;
+    
+    const lastProcessedRef = useRef<string | null>(null);
 
     useEffect(() => {
         const unlistenHover = listen<TauriDropPayload>('tauri://drag-over', () => {
@@ -32,8 +37,15 @@ export function ApkDropzone({ apkInfo, onApkSelected, onApkClear }: ApkDropzoneP
             const paths = event.payload.paths;
             if (paths && paths.length > 0) {
                 const filePath = paths[0];
+                if (filePath === lastProcessedRef.current) {
+                    return;
+                }
                 if (filePath.toLowerCase().endsWith('.apk')) {
-                    onApkSelected(filePath);
+                    lastProcessedRef.current = filePath;
+                    onApkSelectedRef.current(filePath);
+                    setTimeout(() => {
+                        lastProcessedRef.current = null;
+                    }, 1000);
                 }
             }
         });
@@ -52,7 +64,7 @@ export function ApkDropzone({ apkInfo, onApkSelected, onApkClear }: ApkDropzoneP
             unlistenCancel.then(fn => fn());
             unlistenLeave.then(fn => fn());
         };
-    }, [onApkSelected]);
+    }, []);
 
     const handleSelectFile = async () => {
         try {

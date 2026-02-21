@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
     FolderOpen, RefreshCw, Package, FileCheck, X
@@ -36,6 +36,8 @@ export function ApkManager({
 
     // Manual APK state
     const [manualApks, setManualApks] = useState<ApkInfo[]>([]);
+    // Track paths being processed to prevent duplicate additions
+    const processingPaths = useRef<Set<string>>(new Set());
 
     const handleSelectFolder = async () => {
         try {
@@ -66,6 +68,12 @@ export function ApkManager({
     };
 
     const handleManualApkSelected = async (path: string) => {
+        // Prevent duplicate processing using ref (handles race conditions)
+        if (processingPaths.current.has(path)) {
+            return;
+        }
+        processingPaths.current.add(path);
+
         try {
             // Check manual list for duplicates
             if (manualApks.some(a => a.path === path)) {
@@ -75,15 +83,23 @@ export function ApkManager({
             }
 
             // Invoke validation to get info
-            const { invoke } = await import('@tauri-apps/api/core');
+            const { invoke } = await import('../utils/tauri');
             const info = await invoke<ApkInfo | null>('validate_apk', { path });
 
             if (info && info.valid) {
-                setManualApks(prev => [...prev, info]);
+                // Use functional update to check for duplicates with latest state
+                setManualApks(prev => {
+                    if (prev.some(a => a.path === path)) {
+                        return prev;
+                    }
+                    return [...prev, info];
+                });
                 onSelectFromList(info);
             }
         } catch (e) {
             console.error("Failed to add manual apk", e);
+        } finally {
+            processingPaths.current.delete(path);
         }
     };
 
