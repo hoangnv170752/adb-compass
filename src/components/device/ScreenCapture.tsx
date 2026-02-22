@@ -5,7 +5,7 @@ import {
     Camera, Video, VideoOff, RefreshCw,
     FolderOpen, Image, ExternalLink, Zap, Settings,
     Home, Square, Power, Volume2, Volume1, VolumeX,
-    Menu, Sun, Moon, Bell, Play, Triangle
+    Menu, Sun, Moon, Bell, Play, Triangle, Maximize2, X
 } from 'lucide-react';
 import { invoke } from '../../utils/tauri';
 import { save } from '@tauri-apps/plugin-dialog';
@@ -42,10 +42,11 @@ export function ScreenCapture({ device }: ScreenCaptureProps) {
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [isLoadingPreview, setIsLoadingPreview] = useState(false);
     const [aspectRatio, setAspectRatio] = useState<number>(9 / 19.5); // Default modern phone ratio
-    const [isLive, setIsLive] = useState(false);
+    const [isLive, setIsLive] = useState(true); // Auto-refresh enabled by default for live demo
     const [showFps, setShowFps] = useState(true);
     const [allowTouch, setAllowTouch] = useState(false);
     const [isMirroring, setIsMirroring] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
 
     const handleStopMirror = async () => {
         setIsMirroring(false);
@@ -170,6 +171,24 @@ export function ScreenCapture({ device }: ScreenCaptureProps) {
             }
         };
         checkExisting();
+    }, [device.id]);
+
+    // Auto-sync scrcpy stream when component mounts (e.g., switching back to Screen tab)
+    useEffect(() => {
+        const syncStream = async () => {
+            try {
+                const status = await invoke<ScrcpyStatus>('get_scrcpy_status', { deviceId: device.id });
+                if (status.running) {
+                    console.log(`[ScreenCapture] Scrcpy running, restoring high-perf mode for ${device.id}`);
+                    setScrcpyStatus(status);
+                    setStreamMode('high-perf');
+                    // StreamPlayer will auto-request sync when it mounts (800ms delay built-in)
+                }
+            } catch (e) {
+                console.error('Failed to check scrcpy status:', e);
+            }
+        };
+        syncStream();
     }, [device.id]);
 
     // Recording timer
@@ -399,6 +418,7 @@ export function ScreenCapture({ device }: ScreenCaptureProps) {
                 await invoke('stop_scrcpy_server', { deviceId: device.id });
                 setScrcpyStatus(null);
                 setStreamMode('standard');
+                setIsLive(true); // Re-enable auto-refresh when switching back to standard mode
                 toast.success(t.switchedToStandardMode);
             } catch (error) {
                 toast.error(t.failedToStopHighPerf, { description: String(error) });
@@ -722,8 +742,66 @@ export function ScreenCapture({ device }: ScreenCaptureProps) {
                     >
                         <ExternalLink size={16} />
                     </button>
+
+                    <button
+                        onClick={() => setIsFullscreen(true)}
+                        disabled={!previewImage && streamMode !== 'high-perf'}
+                        className="p-2.5 rounded-lg border border-border text-text-secondary hover:text-accent disabled:opacity-20 shadow-sm bg-surface-elevated"
+                        title="Fullscreen"
+                    >
+                        <Maximize2 size={16} />
+                    </button>
                 </div>
             </div>
+
+            {/* Fullscreen Modal */}
+            {isFullscreen && (
+                <div 
+                    className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
+                    onClick={() => setIsFullscreen(false)}
+                >
+                    <button
+                        onClick={() => setIsFullscreen(false)}
+                        className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                    >
+                        <X size={24} />
+                    </button>
+                    <div 
+                        className="max-w-[90vw] max-h-[90vh] flex items-center justify-center"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {streamMode === 'high-perf' && scrcpyStatus?.port ? (
+                            <StreamPlayer
+                                deviceId={device.id}
+                                width={screenWidth}
+                                height={screenHeight}
+                                allowTouch={allowTouch}
+                                onVideoDimensions={(w, h) => {
+                                    setAspectRatio(w / h);
+                                    setScreenWidth(w);
+                                    setScreenHeight(h);
+                                }}
+                                onTouch={handleScrcpyTouch}
+                                onScroll={handleScrcpyScroll}
+                                showFps={showFps}
+                                windowLabel="main-fullscreen"
+                                allowKeyboard={true}
+                            />
+                        ) : previewImage ? (
+                            <img 
+                                src={previewImage} 
+                                alt="Fullscreen Preview" 
+                                className="max-w-full max-h-[90vh] object-contain rounded-lg"
+                            />
+                        ) : (
+                            <div className="text-white text-center">
+                                <Image size={64} className="opacity-30 mx-auto mb-2" />
+                                <span className="text-sm opacity-50">{t.noSignal}</span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
