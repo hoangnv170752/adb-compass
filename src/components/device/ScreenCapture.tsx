@@ -618,12 +618,12 @@ export function ScreenCapture({ device }: ScreenCaptureProps) {
                 </motion.div>
             </div>
 
-            {/* Phone Preview - Flexible Width with Min/Max */}
-            <div className="flex-initial h-full flex items-center gap-6 bg-surface-card rounded-xl border border-border p-6 min-w-[320px] max-w-[480px]">
+            {/* Phone Preview - Fixed width to ensure control buttons always visible */}
+            <div className="w-[320px] shrink-0 h-full flex items-center gap-4 bg-surface-card rounded-xl border border-border p-4">
                 {/* Phone Frame - Boxy Style */}
                 <div
                     className={`flex-1 bg-black rounded-xl shadow-2xl relative transition-all focus-within:ring-2 focus-within:ring-accent/60 focus-within:ring-offset-[3px] focus-within:ring-offset-surface-card ${allowTouch ? 'cursor-pointer' : ''}`}
-                    style={{ height: '100%', maxHeight: '100%', aspectRatio: aspectRatio }}
+                    style={{ width: '100%', maxHeight: '100%', aspectRatio: aspectRatio }}
                     onClick={streamMode === 'standard' ? handleTouch : undefined}
                 >
                     <div className="absolute inset-0 rounded-xl overflow-hidden">
