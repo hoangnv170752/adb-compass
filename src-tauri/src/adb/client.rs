@@ -9,7 +9,7 @@ use std::time::Duration;
 use wait_timeout::ChildExt;
 
 /// Default timeout for standard ADB commands
-const DEFAULT_TIMEOUT: Duration = Duration::from_secs(5);
+const DEFAULT_TIMEOUT: Duration = Duration::from_secs(30);
 /// Default retry attempts for transient failures
 const DEFAULT_RETRIES: u32 = 1;
 
@@ -100,6 +100,8 @@ impl AdbClient {
     ) -> Result<Output, AppError> {
         let mut last_error = AppError::from(AdbError::ExecutionFailed("No attempts made".into()));
 
+        eprintln!("[ADB] execute_with_config: args={:?}, path={:?}", args, self.adb_path);
+
         for attempt in 0..=config.retries {
             if attempt > 0 {
                 std::thread::sleep(Duration::from_millis(1000));
@@ -114,11 +116,24 @@ impl AdbClient {
             cmd.args(args);
 
             match self.wait_for_process(&mut cmd, config.timeout) {
-                Ok(output) => return Ok(output),
-                Err(e) => last_error = e,
+                Ok(output) => {
+                    let stdout = String::from_utf8_lossy(&output.stdout);
+                    let stderr = String::from_utf8_lossy(&output.stderr);
+                    eprintln!("[ADB] Success: status={}, stdout_len={}, stderr_len={}", 
+                        output.status, stdout.len(), stderr.len());
+                    if !stderr.is_empty() {
+                        eprintln!("[ADB] stderr: {}", stderr);
+                    }
+                    return Ok(output);
+                },
+                Err(e) => {
+                    eprintln!("[ADB] Error on attempt {}: {:?}", attempt, e);
+                    last_error = e;
+                }
             }
         }
 
+        eprintln!("[ADB] All attempts failed: {:?}", last_error);
         Err(last_error)
     }
 
@@ -126,9 +141,13 @@ impl AdbClient {
     fn wait_for_process(&self, cmd: &mut Command, timeout: Duration) -> Result<Output, AppError> {
         cmd.stdout(Stdio::piped()).stderr(Stdio::piped());
 
+        eprintln!("[ADB] Spawning process: {:?}", self.adb_path);
+        
         let mut child = cmd.spawn().map_err(|e| {
+            eprintln!("[ADB] Spawn error: {}", e);
             AppError::from(AdbError::ExecutionFailed(format!(
-                "Failed to spawn process: {}",
+                "Failed to spawn process '{}': {}",
+                self.adb_path.display(),
                 e
             )))
         })?;
@@ -152,7 +171,9 @@ impl AdbClient {
 
     /// Discover the ADB path by checking bundled locations and the system path.
     fn discover_adb() -> PathBuf {
-        Self::find_bundled_adb().unwrap_or_else(|| PathBuf::from("adb"))
+        let path = Self::find_bundled_adb().unwrap_or_else(|| PathBuf::from("adb"));
+        eprintln!("[ADB] Discovered ADB path: {:?}", path);
+        path
     }
 
     /// Check for bundled ADB in common application directories.
@@ -166,6 +187,10 @@ impl AdbClient {
         };
 
         let possible_paths = [
+            // macOS app bundle: Contents/MacOS/../Resources/binaries/adb
+            exe_dir
+                .parent()
+                .map(|p| p.join("Resources").join("binaries").join(exe_name)),
             // Development paths
             exe_dir
                 .parent()
@@ -176,7 +201,7 @@ impl AdbClient {
                 .and_then(|p| p.parent())
                 .and_then(|p| p.parent())
                 .map(|p| p.join("src-tauri").join("binaries").join(exe_name)),
-            // Production paths
+            // Production paths (Windows/Linux)
             Some(exe_dir.join("resources").join("binaries").join(exe_name)),
             Some(exe_dir.join("binaries").join(exe_name)),
             Some(exe_dir.join(exe_name)),

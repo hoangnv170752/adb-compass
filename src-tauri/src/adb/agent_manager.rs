@@ -22,10 +22,15 @@ impl AgentManager {
     /// Prepare and start the agent on the specified device.
     pub async fn start_agent(&self, device_id: &str) -> Result<(), AppError> {
         // 1. Push the JAR to the device
-        // Assume the jar is in binaries folder
-        let agent_path = "binaries/agent.jar";
-
+        // Get agent.jar path relative to adb binary location
         let adb_path = self.executor.get_adb_path();
+        let agent_path = adb_path
+            .parent()
+            .map(|p| p.join("agent.jar"))
+            .unwrap_or_else(|| std::path::PathBuf::from("binaries/agent.jar"));
+        
+        let agent_path_str = agent_path.to_string_lossy();
+        eprintln!("[Agent] Using agent.jar path: {}", agent_path_str);
 
         // Push command: adb -s <id> push <path> /data/local/tmp/agent.jar
         let output = tokio::process::Command::new(adb_path)
@@ -34,7 +39,7 @@ impl AgentManager {
                 "-s",
                 device_id,
                 "push",
-                agent_path,
+                &agent_path_str as &str,
                 "/data/local/tmp/agent.jar",
             ])
             .output()
