@@ -113,14 +113,13 @@ This document outlines all features of the application - both implemented and pl
 
 | Status | Feature | Description |
 |--------|---------|-------------|
-| 📋 | Side-by-Side Mirror | View 2+ device screens simultaneously in a split layout |
-| 📋 | Grid Layout | Arrange multiple device screens in a configurable grid (2x2, 3x3, etc.) |
-| 📋 | Synchronized Interaction | Send the same touch/tap event to all devices at once |
-| 📋 | Per-screen Controls | Independent controls for each screen panel |
-| 📋 | Focus Mode | Click a panel to expand it fullscreen, then return to grid |
-| 📋 | Drag to Rearrange | Reorder screen panels via drag and drop |
-| 📋 | Snapshot All | Take screenshots of all visible devices in one click |
-| 📋 | Flexible Panel Resize | Resize individual screen panels within the grid |
+| ✅ | Side-by-Side Mirror | View 2+ device screens simultaneously in a split layout |
+| ✅ | Grid Layout | Arrange multiple device screens in a configurable grid (2x2, 3x3, etc.) |
+| ✅ | Synchronized Interaction | Send the same touch/tap event to all devices at once |
+| ✅ | Per-screen Controls | Independent controls for each screen panel |
+| ✅ | Focus Mode | Click a panel to expand it fullscreen, then return to grid |
+| ✅ | Drag to Rearrange | Reorder screen panels via drag and drop |
+| ✅ | Snapshot All | Take screenshots of all visible devices in one click |
 
 ---
 

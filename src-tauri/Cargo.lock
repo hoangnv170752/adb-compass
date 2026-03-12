@@ -3,27 +3,6 @@
 version = 4
 
 [[package]]
-name = "adb-compass"
-version = "1.0.0"
-dependencies = [
- "base64 0.22.1",
- "chrono",
- "dirs 5.0.1",
- "image",
- "lazy_static",
- "openh264",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-dialog",
- "tauri-plugin-opener",
- "tauri-plugin-updater",
- "tokio",
- "wait-timeout",
-]
-
-[[package]]
 name = "adler2"
 version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -878,6 +857,27 @@ dependencies = [
  "quote",
  "rustc_version",
  "syn 2.0.111",
+]
+
+[[package]]
+name = "devicehub"
+version = "1.0.0"
+dependencies = [
+ "base64 0.22.1",
+ "chrono",
+ "dirs 5.0.1",
+ "image",
+ "lazy_static",
+ "openh264",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-dialog",
+ "tauri-plugin-opener",
+ "tauri-plugin-updater",
+ "tokio",
+ "wait-timeout",
 ]
 
 [[package]]

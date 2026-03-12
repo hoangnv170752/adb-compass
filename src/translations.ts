@@ -280,6 +280,19 @@ export const translations = {
         apk: 'APK',
         apkFiles: 'APK Files',
         removeApk: 'Remove APK',
+
+        // AI API Keys
+        aiApiKeys: 'AI API Keys',
+        aiApiKeysDesc: 'Store API keys locally for AI-powered analysis features',
+        aiKeysWarning: 'Keys are stored only in local storage and never sent anywhere except the respective AI provider.',
+        openaiKey: 'OpenAI API Key',
+        openaiKeyPlaceholder: 'sk-...',
+        anthropicKey: 'Anthropic (Claude) API Key',
+        anthropicKeyPlaceholder: 'sk-ant-...',
+        geminiKey: 'Google Gemini API Key',
+        geminiKeyPlaceholder: 'AIza...',
+        aiKeySaved: 'API key saved',
+        aiKeyCleared: 'API key cleared',
     },
     vi: {
         // Global
@@ -560,6 +573,19 @@ export const translations = {
         apk: 'APK',
         apkFiles: 'Tệp APK',
         removeApk: 'Gỡ bỏ APK',
+
+        // AI API Keys
+        aiApiKeys: 'Khóa API AI',
+        aiApiKeysDesc: 'Lưu trữ khóa API cho các tính năng phân tích bằng AI',
+        aiKeysWarning: 'Khóa chỉ được lưu trong bộ nhớ cục bộ và không được gửi đi đâu ngoài nhà cung cấp AI tương ứng.',
+        openaiKey: 'Khóa API OpenAI',
+        openaiKeyPlaceholder: 'sk-...',
+        anthropicKey: 'Khóa API Anthropic (Claude)',
+        anthropicKeyPlaceholder: 'sk-ant-...',
+        geminiKey: 'Khóa API Google Gemini',
+        geminiKeyPlaceholder: 'AIza...',
+        aiKeySaved: 'Đã lưu khóa API',
+        aiKeyCleared: 'Đã xóa khóa API',
     },
 };
 

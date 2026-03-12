@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
     ArrowLeft, Moon, Sun, Monitor, FolderOpen, Globe,
-    FileText, Settings as SettingsIcon, RotateCcw, Github
+    FileText, Settings as SettingsIcon, RotateCcw, Github,
+    BrainCircuit, Eye, EyeOff, ShieldCheck, X
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { open as openDialog, confirm } from '@tauri-apps/plugin-dialog';
@@ -26,6 +27,11 @@ export function Settings({ onBack }: SettingsProps) {
     const [captureSavePath, setCaptureSavePath] = useState('');
     const [askBeforeSave, setAskBeforeSave] = useState(false);
 
+    const [openaiKey, setOpenaiKey] = useState('');
+    const [anthropicKey, setAnthropicKey] = useState('');
+    const [geminiKey, setGeminiKey] = useState('');
+    const [showKeys, setShowKeys] = useState<Record<string, boolean>>({});
+
     const { language, setLanguage, t } = useLanguage();
     const { theme, setTheme } = useTheme();
 
@@ -43,6 +49,10 @@ export function Settings({ onBack }: SettingsProps) {
 
         if (storedAskBeforeSave) setAskBeforeSave(storedAskBeforeSave === 'true');
         else setAskBeforeSave(false);
+
+        setOpenaiKey(localStorage.getItem('ai_key_openai') || '');
+        setAnthropicKey(localStorage.getItem('ai_key_anthropic') || '');
+        setGeminiKey(localStorage.getItem('ai_key_gemini') || '');
 
         if (storedCapturePath) {
             setCaptureSavePath(storedCapturePath);
@@ -106,6 +116,20 @@ export function Settings({ onBack }: SettingsProps) {
             toast.info("Browser feature not available");
         }
     };
+
+    const handleSaveAiKey = (provider: string, value: string, setter: (v: string) => void) => {
+        setter(value);
+        if (value.trim()) {
+            localStorage.setItem(`ai_key_${provider}`, value.trim());
+            toast.success(t.aiKeySaved, { description: provider });
+        } else {
+            localStorage.removeItem(`ai_key_${provider}`);
+            toast.info(t.aiKeyCleared, { description: provider });
+        }
+    };
+
+    const toggleShowKey = (key: string) =>
+        setShowKeys(prev => ({ ...prev, [key]: !prev[key] }));
 
     const handleAskBeforeSaveToggle = () => {
         const newState = !askBeforeSave;
@@ -332,6 +356,60 @@ export function Settings({ onBack }: SettingsProps) {
                     </div>
                 </section>
 
+                {/* AI API Keys Section */}
+                <section className="bg-surface-card border border-border rounded-2xl p-6 shadow-sm">
+                    <h3 className="text-sm font-bold text-text-muted uppercase tracking-wider mb-1 flex items-center gap-2">
+                        <BrainCircuit size={16} className="text-accent" />
+                        {t.aiApiKeys}
+                    </h3>
+                    <p className="text-xs text-text-secondary mb-5">{t.aiApiKeysDesc}</p>
+
+                    <div className="flex items-start gap-2 px-3 py-2.5 rounded-xl bg-warning/8 border border-warning/20 mb-5">
+                        <ShieldCheck size={14} className="text-warning mt-0.5 flex-shrink-0" />
+                        <p className="text-[11px] text-warning/80 leading-relaxed">{t.aiKeysWarning}</p>
+                    </div>
+
+                    <div className="space-y-5">
+                        {([
+                            { id: 'openai',    label: t.openaiKey,    placeholder: t.openaiKeyPlaceholder,    value: openaiKey,    setter: setOpenaiKey },
+                            { id: 'anthropic', label: t.anthropicKey, placeholder: t.anthropicKeyPlaceholder, value: anthropicKey, setter: setAnthropicKey },
+                            { id: 'gemini',    label: t.geminiKey,    placeholder: t.geminiKeyPlaceholder,    value: geminiKey,    setter: setGeminiKey },
+                        ] as const).map(({ id, label, placeholder, value, setter }) => (
+                            <div key={id} className={id !== 'openai' ? 'pt-5 border-t border-border/50' : ''}>
+                                <label className="block text-sm font-semibold text-text-primary mb-2">{label}</label>
+                                <div className="flex gap-2">
+                                    <div className="relative flex-1">
+                                        <input
+                                            type={showKeys[id] ? 'text' : 'password'}
+                                            placeholder={placeholder}
+                                            value={value}
+                                            onChange={e => setter(e.target.value)}
+                                            onBlur={e => handleSaveAiKey(id, e.target.value, setter)}
+                                            className="w-full bg-surface-elevated border border-border rounded-xl px-4 py-2.5 pr-10 text-sm text-text-primary focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 transition-all placeholder:text-text-muted/50 font-mono"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => toggleShowKey(id)}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary transition-colors"
+                                        >
+                                            {showKeys[id] ? <EyeOff size={14} /> : <Eye size={14} />}
+                                        </button>
+                                    </div>
+                                    {value && (
+                                        <button
+                                            onClick={() => handleSaveAiKey(id, '', setter)}
+                                            className="px-3 py-2.5 bg-surface-elevated border border-border rounded-xl text-text-muted hover:text-error hover:border-error/50 transition-all"
+                                            title="Clear key"
+                                        >
+                                            <X size={14} />
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
                 {/* About Section - Simplified */}
                 <section className="bg-surface-card border border-border rounded-xl p-6 shadow-sm overflow-hidden">
                     <div className="flex flex-col md:flex-row items-start gap-6">
@@ -348,14 +426,14 @@ export function Settings({ onBack }: SettingsProps) {
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <button
-                                    onClick={() => openUrl('https://github.com/h1dr0nn/adb-compass')}
+                                    onClick={() => openUrl('https://github.com/hoangnv170752/adb-compass')}
                                     className="text-xs font-medium text-text-secondary hover:text-accent transition-colors bg-surface-elevated px-3 py-1.5 rounded-lg border border-border/50 flex items-center gap-2"
                                 >
                                     <Github size={14} />
                                     GitHub
                                 </button>
                                 <button
-                                    onClick={() => openUrl('https://github.com/h1dr0nn')}
+                                    onClick={() => openUrl('https://github.com/hoangnv170752')}
                                     className="text-xs font-medium text-text-secondary hover:text-accent transition-colors bg-surface-elevated px-3 py-1.5 rounded-lg border border-border/50 flex items-center gap-2"
                                 >
                                     <Globe size={14} />
@@ -366,14 +444,25 @@ export function Settings({ onBack }: SettingsProps) {
                     </div>
 
                     <div className="mt-6 pt-6 border-t border-border/50 flex flex-wrap items-center justify-between gap-4">
-                        <div className="flex items-center gap-2 text-xs text-text-secondary">
-                            <span className="text-text-muted">{t.developedBy}</span>
-                            <button
-                                onClick={() => openUrl('https://github.com/h1dr0nn')}
-                                className="font-bold hover:text-accent transition-colors"
-                            >
-                                h1dr0n
-                            </button>
+                        <div className="flex flex-col gap-1 text-xs text-text-secondary">
+                            <div className="flex items-center gap-2">
+                                <span className="text-text-muted">{t.developedBy}</span>
+                                <button
+                                    onClick={() => openUrl('https://github.com/hoangnv170752')}
+                                    className="font-bold hover:text-accent transition-colors"
+                                >
+                                    hoangnv170752
+                                </button>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-text-muted">Original idea by</span>
+                                <button
+                                    onClick={() => openUrl('https://github.com/h1dr0nn')}
+                                    className="font-bold hover:text-accent transition-colors"
+                                >
+                                    h1dr0n
+                                </button>
+                            </div>
                         </div>
                         <div className="flex items-center gap-4">
                             <button
