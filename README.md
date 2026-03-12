@@ -59,6 +59,15 @@ Download the latest version from the [Releases](https://github.com/user/adb-comp
 
 ---
 
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Feature Roadmap](docs/FEATURES.md) | All features — implemented, in progress, and planned |
+| [Design System](docs/DESIGN.md) | Colors, typography, spacing, components, and UI architecture |
+
+---
+
 ## License
 
 MIT License - Free to use and modify.
