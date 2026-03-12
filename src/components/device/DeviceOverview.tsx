@@ -78,6 +78,79 @@ function ValueWithSub({ main, sub, unknownLabel }: { main: string | null | undef
     );
 }
 
+function parseStorageGB(value: string | null | undefined): number | null {
+    if (!value) return null;
+    const match = value.match(/([\d.]+)\s*(GB|MB|TB)/i);
+    if (!match) return null;
+    const num = parseFloat(match[1]);
+    const unit = match[2].toUpperCase();
+    if (unit === 'TB') return num * 1024;
+    if (unit === 'MB') return num / 1024;
+    return num;
+}
+
+interface StorageCardProps {
+    label: string;
+    total: string | null | undefined;
+    free: string | null | undefined;
+    freeLabel: string;
+    unknownLabel: string;
+    loading?: boolean;
+}
+
+function StorageCard({ label, total, free, freeLabel, unknownLabel, loading }: StorageCardProps) {
+    const totalGB = parseStorageGB(total);
+    const freeGB = parseStorageGB(free);
+    const usedPct = totalGB && freeGB != null ? Math.round(((totalGB - freeGB) / totalGB) * 100) : null;
+
+    const barColor = usedPct == null
+        ? 'bg-accent'
+        : usedPct >= 90 ? 'bg-error'
+        : usedPct >= 70 ? 'bg-warning'
+        : 'bg-success';
+
+    return (
+        <motion.div
+            variants={listItem}
+            className="bg-surface-card border border-border rounded-xl p-4 hover:border-accent/30 transition-colors"
+        >
+            <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+                    <HardDrive className="text-accent" size={20} />
+                </div>
+                <div className="min-w-0 flex-1">
+                    <p className="text-xs text-text-muted uppercase tracking-wide mb-1">{label}</p>
+                    {loading ? (
+                        <div className="flex items-center h-5">
+                            <Loader2 className="animate-spin text-accent/50" size={14} />
+                        </div>
+                    ) : (
+                        <>
+                            <p className="text-sm font-semibold text-text-primary truncate">
+                                {total ?? unknownLabel}
+                                {free && <span className="text-text-secondary font-normal"> ({free} {freeLabel})</span>}
+                            </p>
+                            {usedPct != null && (
+                                <div className="mt-2">
+                                    <div className="flex justify-between items-center mb-1">
+                                        <span className="text-xs text-text-muted">{usedPct}% used</span>
+                                    </div>
+                                    <div className="h-1.5 w-full bg-surface-elevated rounded-full overflow-hidden">
+                                        <div
+                                            className={`h-full rounded-full transition-all duration-500 ${barColor}`}
+                                            style={{ width: `${usedPct}%` }}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    )}
+                </div>
+            </div>
+        </motion.div>
+    );
+}
+
 export function DeviceOverview({ device }: DeviceOverviewProps) {
     const [props, setProps] = useState<DeviceProps | null>(null);
     const [loading, setLoading] = useState(true);
@@ -167,16 +240,12 @@ export function DeviceOverview({ device }: DeviceOverviewProps) {
                         loading={loading}
                     />
 
-                    <InfoCard
-                        icon={<HardDrive className="text-accent" size={20} />}
+                    <StorageCard
                         label={t.storage}
-                        value={
-                            <ValueWithSub
-                                main={props?.storage_total}
-                                sub={props?.storage_free ? `${props.storage_free} ${t.free}` : null}
-                                unknownLabel={t.unknown}
-                            />
-                        }
+                        total={props?.storage_total}
+                        free={props?.storage_free}
+                        freeLabel={t.free}
+                        unknownLabel={t.unknown}
                         loading={loading}
                     />
 
