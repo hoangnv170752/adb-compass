@@ -295,7 +295,7 @@ export function Settings({ onBack }: SettingsProps) {
                             <div className="flex gap-2">
                                 <input
                                     type="text"
-                                    placeholder="~/Pictures/ADB Compass"
+                                    placeholder="~/Pictures/DeviceHub"
                                     value={captureSavePath}
                                     className="flex-1 bg-surface-elevated border border-border rounded-xl px-4 py-2.5 text-sm text-text-primary focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 transition-all placeholder:text-text-muted/50"
                                     readOnly
@@ -337,8 +337,8 @@ export function Settings({ onBack }: SettingsProps) {
                     <div className="flex flex-col md:flex-row items-start gap-6">
                         <div className="flex-1">
                             <div className="flex items-center gap-3 mb-2">
-                                <img src="/icon.png" alt="ADB Compass" className="w-8 h-8 rounded-lg shadow-sm" />
-                                <h2 className="text-xl font-bold text-text-primary">ADB Compass</h2>
+                                <img src="/icon.png" alt="DeviceHub" className="w-8 h-8 rounded-lg shadow-sm" />
+                                <h2 className="text-xl font-bold text-text-primary">DeviceHub</h2>
                                 <span className="text-[10px] font-bold text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/20">
                                     v{t.version.split(':')[1].trim()}
                                 </span>

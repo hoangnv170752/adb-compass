@@ -3,7 +3,7 @@ import packageJson from '../package.json';
 export const translations = {
     en: {
         // Global
-        appName: 'ADB Compass',
+        appName: 'DeviceHub',
         version: `Version: ${packageJson.version}`,
         loadingDots: 'Loading...',
         unknown: 'Unknown',
@@ -35,7 +35,7 @@ export const translations = {
         notifications: 'Notifications',
         showNotif: 'Show system notifications for device events',
         about: 'About',
-        aboutDesc: 'ADB Compass is a modern tool for managing Android devices.',
+        aboutDesc: 'DeviceHub is a modern tool for managing Android devices.',
         checkUpdates: 'Check for updates',
         latestVersion: 'You are on the latest version!',
         logs: 'Logs',
@@ -283,7 +283,7 @@ export const translations = {
     },
     vi: {
         // Global
-        appName: 'ADB Compass',
+        appName: 'DeviceHub',
         version: `Phiên bản: ${packageJson.version}`,
         loadingDots: 'Đang tải...',
         unknown: 'Không xác định',
@@ -315,7 +315,7 @@ export const translations = {
         notifications: 'Thông báo',
         showNotif: 'Hiển thị thông báo hệ thống cho các sự kiện thiết bị',
         about: 'Giới thiệu',
-        aboutDesc: 'ADB Compass là công cụ hiện đại để quản lý thiết bị Android.',
+        aboutDesc: 'DeviceHub là công cụ hiện đại để quản lý thiết bị Android.',
         checkUpdates: 'Kiểm tra cập nhật',
         latestVersion: 'Bạn đang sử dụng phiên bản mới nhất!',
         logs: 'Nhật ký',

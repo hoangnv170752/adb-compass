@@ -1,4 +1,4 @@
-// ADB Compass - Error Types
+// DeviceHub - Error Types
 // Centralized error handling for the application
 
 use serde::Serialize;

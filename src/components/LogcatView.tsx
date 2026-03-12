@@ -528,7 +528,7 @@ export function LogcatView({ onBack }: LogcatViewProps) {
             </span>
           )}
         </div>
-        <span>ADB Compass v1.0.1</span>
+        <span>DeviceHub v1.0.1</span>
       </div>
     </motion.div>
   );

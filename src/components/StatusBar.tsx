@@ -48,9 +48,9 @@ export function StatusBar({ adbStatus, loading, onRefresh }: StatusBarProps) {
                     {getStatusIcon()}
                 </span>
                 <span className="text-sm text-text-secondary">
-                    {!adbStatus ? 'Checking ADB...' :
+                    {!adbStatus ? 'Checking...' :
                         adbStatus.available
-                            ? adbStatus.version || 'ADB Ready'
+                            ? 'DeviceHub version 1.0.0'
                             : 'ADB Not Found'}
                 </span>
             </div>

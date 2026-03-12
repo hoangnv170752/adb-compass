@@ -12,7 +12,7 @@ public class Main {
     private static final int DEFAULT_PORT = 12345;
 
     public static void main(String[] args) {
-        System.out.println("ADB Compass Agent starting...");
+        System.out.println("DeviceHub Agent starting...");
 
         int port = DEFAULT_PORT;
         if (args.length > 0) {

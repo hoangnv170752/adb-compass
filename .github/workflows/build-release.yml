@@ -288,7 +288,7 @@ jobs:
             
             # Try finding the main app exe
             $candidates = @(
-              "$releaseDir/ADB Compass.exe",
+              "$releaseDir/DeviceHub.exe",
               "$releaseDir/adb-compass.exe", 
               "$releaseDir/adbcompass.exe"
             )
@@ -524,7 +524,7 @@ jobs:
         run: |
           if [[ "${{ github.ref }}" == refs/tags/release-v* ]]; then
             echo "is_prerelease=false" >> $GITHUB_OUTPUT
-            echo "release_name=ADB Compass ${{ steps.get_version.outputs.version }}" >> $GITHUB_OUTPUT
+            echo "release_name=DeviceHub ${{ steps.get_version.outputs.version }}" >> $GITHUB_OUTPUT
           else
             echo "is_prerelease=true" >> $GITHUB_OUTPUT
             echo "release_name=Development Build ${{ steps.get_version.outputs.version }}" >> $GITHUB_OUTPUT

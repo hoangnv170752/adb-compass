@@ -574,7 +574,7 @@ export function ScreenCapture({ device }: ScreenCaptureProps) {
                             {t.storage}
                         </h4>
                         <p className="text-xs text-text-muted mb-3">{t.storageLocation}</p>
-                        <p className="text-sm text-text-secondary mb-4 font-mono">~/Pictures/ADB Compass/</p>
+                        <p className="text-sm text-text-secondary mb-4 font-mono">~/Pictures/DeviceHub/</p>
                         <button
                             onClick={handleOpenFolder}
                             className="flex items-center gap-2 px-3 py-2 bg-surface-elevated hover:bg-surface-hover border border-border text-text-secondary hover:text-text-primary rounded-lg transition-all text-sm"

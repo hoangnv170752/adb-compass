@@ -1,8 +1,8 @@
-# ADB Compass
+# DeviceHub
 
 A simple desktop app to install APK files on your Android devices.
 
-![ADB Compass](https://img.shields.io/badge/Platform-Windows%20|%20macOS%20|%20Linux-blue)
+![DeviceHub](https://img.shields.io/badge/Platform-Windows%20|%20macOS%20|%20Linux-blue)
 
 ---
 

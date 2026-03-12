@@ -293,7 +293,7 @@ pub fn open_captures_folder(custom_save_path: Option<String>) -> Result<(), AppE
         )
     })?;
 
-    // Parent folder defaults to "ADB Compass"
+    // Parent folder defaults to "DeviceHub"
     let folder_to_open = screenshots_dir.parent().unwrap_or(&screenshots_dir);
 
     #[cfg(target_os = "windows")]

@@ -1,4 +1,4 @@
-// TypeScript types for ADB Compass
+// TypeScript types for DeviceHub
 
 // Device status enum
 export type DeviceStatus =

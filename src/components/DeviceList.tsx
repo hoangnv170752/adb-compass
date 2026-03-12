@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Smartphone, Loader2, AlertTriangle, RefreshCw,
-    Info, Trash2, Power, Keyboard, FileInput, Package, Plus
+    Info, Trash2, Power, Keyboard, FileInput, Package, Plus, LayoutGrid
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { DeviceInfo, ApkInfo } from '../types';
@@ -27,9 +27,10 @@ interface DeviceListProps {
     onDeviceSelect?: (device: DeviceInfo) => void;
     onRemove?: (deviceId: string) => void;
     onAddDevice?: () => void;
+    onMultiScreen?: () => void;
 }
 
-export function DeviceList({ devices, loading, error, apkInfo, onRefresh, onDeviceSelect, onRemove, onAddDevice }: DeviceListProps) {
+export function DeviceList({ devices, loading, error, apkInfo, onRefresh, onDeviceSelect, onRemove, onAddDevice, onMultiScreen }: DeviceListProps) {
     const prevDevicesRef = useRef<DeviceInfo[]>([]);
     const { t } = useLanguage();
 
@@ -144,6 +145,15 @@ export function DeviceList({ devices, loading, error, apkInfo, onRefresh, onDevi
                 </div>
 
                 <div className="flex gap-2">
+                    {devices.filter(d => d.status === 'Device').length >= 2 && (
+                        <button
+                            onClick={onMultiScreen}
+                            className="p-2 bg-surface-elevated border border-border text-text-secondary hover:text-accent hover:border-accent rounded-lg transition-all"
+                            title="Multi-Screen View"
+                        >
+                            <LayoutGrid size={20} />
+                        </button>
+                    )}
                     <button
                         onClick={onAddDevice}
                         className="p-2 bg-surface-elevated border border-border text-text-secondary hover:text-accent hover:border-accent rounded-lg transition-all"

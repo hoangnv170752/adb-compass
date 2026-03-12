@@ -12,6 +12,7 @@ import { LogcatView } from './components/LogcatView';
 import { TerminalView } from './components/TerminalView';
 import { DeviceDetailView } from './components/DeviceDetailView';
 import { ManualConnectModal } from './components/modals/ManualConnectModal';
+import { MultiScreenView } from './components/MultiScreenView';
 import { useLanguage } from './contexts/LanguageContext';
 import { useTheme } from './contexts/ThemeContext';
 import { DeviceProvider } from './contexts/DeviceContext';
@@ -25,6 +26,7 @@ function AppContent() {
   const { apkInfo, selectApk, clearApk, scanFolder, setApkFromList } = useApk();
   const [showSettings, setShowSettings] = useState(false);
   const [showManualConnect, setShowManualConnect] = useState(false);
+  const [showMultiScreen, setShowMultiScreen] = useState(false);
   const [activeToolView, setActiveToolView] = useState<ActiveToolView>(null);
   const [selectedDevice, setSelectedDevice] = useState<DeviceInfo | null>(null);
   const { t } = useLanguage();
@@ -33,6 +35,7 @@ function AppContent() {
   const handleOpenToolView = (view: ActiveToolView) => {
     setShowSettings(false);
     setSelectedDevice(null);
+    setShowMultiScreen(false);
     setActiveToolView(view);
   };
 
@@ -43,6 +46,7 @@ function AppContent() {
   const handleDeviceSelect = (device: DeviceInfo) => {
     setShowSettings(false);
     setActiveToolView(null);
+    setShowMultiScreen(false);
     setSelectedDevice(device);
   };
 
@@ -71,7 +75,7 @@ function AppContent() {
           <div className="flex items-center gap-3">
             <img
               src="/icon.png"
-              alt="ADB Compass"
+              alt="DeviceHub"
               className="w-12 h-12 rounded-xl shadow-lg"
             />
             <div className="mt-1">
@@ -142,6 +146,20 @@ function AppContent() {
                 >
                   <TerminalView onBack={handleCloseToolView} />
                 </motion.div>
+              ) : showMultiScreen ? (
+                <motion.div
+                  key="multi-screen"
+                  className="h-full"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <MultiScreenView
+                    devices={devices}
+                    onBack={() => setShowMultiScreen(false)}
+                  />
+                </motion.div>
               ) : selectedDevice ? (
                 <motion.div
                   key="device-detail"
@@ -172,6 +190,7 @@ function AppContent() {
                       onDeviceSelect={handleDeviceSelect}
                       onRemove={removeDevice}
                       onAddDevice={() => setShowManualConnect(true)}
+                      onMultiScreen={() => setShowMultiScreen(true)}
                     />
                   </div>
 

@@ -1,4 +1,4 @@
-// ADB Compass - Main Library
+// DeviceHub - Main Library
 // Entry point for the Tauri application
 
 pub mod adb;
