@@ -22,7 +22,7 @@ import type { DeviceInfo } from './types';
 
 // Inner App Component that uses hooks
 function AppContent() {
-  const { devices, adbStatus, loading, error, refreshDevices, removeDevice } = useDevices();
+  const { devices, loading, error, refreshDevices, removeDevice } = useDevices();
   const { apkInfo, selectApk, clearApk, scanFolder, setApkFromList } = useApk();
   const [showSettings, setShowSettings] = useState(false);
   const [showManualConnect, setShowManualConnect] = useState(false);
@@ -86,12 +86,12 @@ function AppContent() {
 
           <div className="flex items-center gap-4">
             {/* ADB Status in Header */}
-            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border ${adbStatus?.available ? 'bg-success/10 border-success/20' : 'bg-error/10 border-error/20'}`}>
+            {/* <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border ${adbStatus?.available ? 'bg-success/10 border-success/20' : 'bg-error/10 border-error/20'}`}>
               <div className={`w-2 h-2 rounded-full ${adbStatus?.available ? 'bg-success shadow-[0_0_8px_rgba(34,197,94,0.4)]' : 'bg-error'}`} />
               <span className="text-sm font-medium text-text-primary">
                 {adbStatus?.available ? (adbStatus.version || 'ADB Ready') : 'ADB Not Found'}
               </span>
-            </div>
+            </div> */}
           </div>
         </div>
       </motion.header>

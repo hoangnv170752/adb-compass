@@ -50,7 +50,7 @@ export function StatusBar({ adbStatus, loading, onRefresh }: StatusBarProps) {
                 <span className="text-sm text-text-secondary">
                     {!adbStatus ? 'Checking...' :
                         adbStatus.available
-                            ? `ADB ${adbStatus.version?.match(/version\s+(\S+)/i)?.[1] ?? adbStatus.version ?? ''}`
+                            ? 'ADB'
                             : 'ADB Not Found'}
                 </span>
             </div>

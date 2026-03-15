@@ -689,4 +689,82 @@ public/
 
 ---
 
+## Competitor Comparison Section
+
+### Competitors
+
+1. **scrcpy** (by Genymobile)
+   - Free & Open Source (Apache 2.0)
+   - GitHub: https://github.com/genymobile/scrcpy
+   - CLI-only, no GUI
+   - High performance (up to 120 FPS)
+   - No file management, no app management, no device dashboard
+
+2. **Vysor** (by Koushik Dutta)
+   - Freemium / Proprietary
+   - Website: https://www.vysor.io
+   - Free: Low quality, USB only, ads
+   - Pro ($2.50/mo, $10/yr, $40 lifetime): Wireless, high quality, file drag & drop
+   - No file browser, no app management, no developer tools
+
+3. **Android Studio**
+   - Free (official Google IDE)
+   - 1GB+ installation size
+   - Full IDE with device management
+   - Overkill for simple device management tasks
+
+### Accurate Comparison Data
+
+| Feature | DeviceHub | scrcpy | Vysor Free | Vysor Pro | Android Studio |
+|---------|-----------|--------|------------|-----------|----------------|
+| Screen Mirroring | ✅ 60 FPS | ✅ 120 FPS | ✅ Low quality | ✅ High quality | ✅ |
+| File Browser | ✅ | ❌ | ❌ | ❌ (drag only) | ✅ |
+| Wireless ADB | ✅ | ✅ | ❌ | ✅ | ✅ |
+| APK Drag & Drop | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Multi-Device Sync | ✅ | ❌ | ❌ | ❌ | ❌ |
+| App Management | ✅ | ❌ | ❌ | ❌ | ✅ |
+| Logcat Viewer | ✅ | ❌ | ❌ | ❌ | ✅ |
+| Shell Terminal | ✅ | ❌ | ❌ | ❌ | ✅ |
+| GUI Interface | ✅ | ❌ | ✅ | ✅ | ✅ |
+| Free & Open Source | ✅ | ✅ | ✅ (limited) | ❌ | ❌ |
+| Lightweight (<50MB) | ✅ | ✅ | ✅ | ✅ | ❌ (1GB+) |
+
+### Stats (Verified Claims Only)
+
+| Stat | Value | Comparison |
+|------|-------|------------|
+| App Size | <50MB | vs Android Studio 1GB+ |
+| Startup | <2s | vs IDE 30s+ |
+| Price | $0 | Free forever, no tiers |
+| Tools | 9+ | Integrated features |
+
+### Unique Selling Points
+
+**vs scrcpy:**
+- GUI interface (no command-line)
+- Integrated file browser
+- App management
+- Multi-device sync
+- Device dashboard
+
+**vs Vysor:**
+- Completely free (no paid tiers)
+- Open source
+- Full file browser
+- Developer tools (logcat, terminal)
+- No ads
+
+**vs Android Studio:**
+- 20× lighter
+- Instant startup
+- Purpose-built for device management
+- Simpler UI
+
+### Limitations to Acknowledge
+- No audio forwarding (scrcpy has this)
+- No iOS support (Vysor has this)
+- Max 60 FPS (scrcpy supports 120 FPS)
+
+---
+
 *Last updated: March 2026*
