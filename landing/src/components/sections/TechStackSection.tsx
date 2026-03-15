@@ -29,9 +29,9 @@ const TechStackSection = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="flex flex-col items-center gap-3 text-text-muted transition-all duration-200 grayscale hover:text-foreground hover:grayscale-0"
+              className="flex flex-col items-center gap-3 text-text-muted transition-all duration-200 hover:text-foreground"
             >
-              <img src={tech.icon} alt={tech.name} className="h-12 w-12" />
+              <img src={tech.icon} alt={tech.name} className="h-12 w-12 dark:invert dark:brightness-200" />
               <span className="text-sm font-medium">{tech.name}</span>
             </motion.div>
           ))}

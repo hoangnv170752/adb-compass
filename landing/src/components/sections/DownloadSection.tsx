@@ -33,7 +33,7 @@ const DownloadSection = () => {
               whileHover={{ scale: 1.02, y: -2 }}
               className="flex w-full items-center gap-4 rounded-xl border border-border bg-card px-8 py-6 text-left transition-all duration-200 hover:border-primary hover:shadow-lg sm:w-auto"
             >
-              <img src={platform.icon} alt={platform.name} className="h-8 w-8" />
+              <img src={platform.icon} alt={platform.name} className="h-8 w-8 dark:invert dark:brightness-200" />
               <div>
                 <div className="font-semibold text-foreground">{platform.name}</div>
                 <div className="text-sm text-text-muted">{platform.format}</div>
