@@ -11,6 +11,8 @@ import {
   Search,
   X,
   FastForward,
+  BrainCircuit,
+  FlaskConical,
 } from "lucide-react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
@@ -18,6 +20,8 @@ import { save } from "@tauri-apps/plugin-dialog";
 import { toast } from "sonner";
 import { Select } from "./ui/Select";
 import { useDevices } from "../hooks/useDevices";
+import { AiLogAnalysisModal } from "./modals/AiLogAnalysisModal";
+import { hasAnyAiKey } from "../utils/aiService";
 
 interface LogcatViewProps {
   onBack: () => void;
@@ -40,6 +44,8 @@ export function LogcatView({ onBack }: LogcatViewProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [maxLines, setMaxLines] = useState(1000);
   const [isAtBottom, setIsAtBottom] = useState(true);
+  const [showAiModal, setShowAiModal] = useState(false);
+  const aiKeyConfigured = hasAnyAiKey();
 
   const logsEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -369,6 +375,21 @@ export function LogcatView({ onBack }: LogcatViewProps) {
           </button>
 
           <button
+            onClick={() => setShowAiModal(true)}
+            disabled={filteredLogs.length === 0}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-all text-sm font-medium disabled:opacity-50 ${
+              aiKeyConfigured
+                ? 'bg-accent/10 border-accent/30 text-accent hover:bg-accent/20'
+                : 'bg-surface-elevated border-border text-text-muted hover:text-text-primary'
+            }`}
+            title={aiKeyConfigured ? 'Analyze logs with AI' : 'Configure an AI key in Settings first'}
+          >
+            <BrainCircuit size={14} />
+            <span>AI Analyze</span>
+            <FlaskConical size={10} className="opacity-60" />
+          </button>
+
+          <button
             onClick={handleClear}
             disabled={!selectedDevice}
             className="p-2 rounded-lg bg-surface-elevated border border-border text-text-secondary hover:text-error transition-all disabled:opacity-50"
@@ -516,6 +537,13 @@ export function LogcatView({ onBack }: LogcatViewProps) {
           )}
         </AnimatePresence>
       </div>
+
+      {showAiModal && (
+        <AiLogAnalysisModal
+          logs={filteredLogs.map((l) => l.text).join("\n")}
+          onClose={() => setShowAiModal(false)}
+        />
+      )}
 
       <div className="mt-2 px-2 flex justify-between items-center text-[10px] text-text-muted font-medium">
         <div className="flex items-center gap-4">

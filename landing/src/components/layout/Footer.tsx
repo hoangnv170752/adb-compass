@@ -15,9 +15,9 @@ const Footer = () => {
 
         <div className="flex gap-6">
           {[
-            { label: "GitHub", href: "https://github.com/hoangnv170752/DeviceHub" },
-            { label: "Documentation", href: "#" },
-            { label: "License", href: "#" },
+            { label: "GitHub", href: "https://github.com/hoangnv170752/device-hub" },
+            { label: "Releases", href: "https://github.com/hoangnv170752/device-hub/releases" },
+            { label: "License", href: "https://github.com/hoangnv170752/device-hub/blob/main/LICENSE" },
           ].map((link) => (
             <a
               key={link.label}

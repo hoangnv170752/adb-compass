@@ -43,7 +43,7 @@ const HeroSection = () => {
               Download for Free
             </a>
             <a
-              href="https://github.com/hoangnv170752/DeviceHub"
+              href="https://github.com/hoangnv170752/device-hub"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg border border-border bg-transparent px-8 py-4 font-semibold text-foreground transition-all duration-200 hover:scale-[1.02] hover:bg-surface-elevated"

@@ -293,6 +293,26 @@ export const translations = {
         geminiKeyPlaceholder: 'AIza...',
         aiKeySaved: 'API key saved',
         aiKeyCleared: 'API key cleared',
+
+        // AI Log Analysis Modal
+        aiLogAnalysis: 'AI Log Analysis',
+        experimental: 'EXPERIMENTAL',
+        aiUsingProvider: 'Using',
+        aiNoKeyConfigured: 'No AI key configured',
+        aiNoKeyDesc: 'Go to Settings → AI API Keys and add an OpenAI, Anthropic, or Gemini key to use this feature.',
+        aiExperimentalWarning: 'This is an experimental feature. AI-generated analysis may be inaccurate. Do not use as a substitute for manual debugging. Logs are sent directly to the configured AI provider.',
+        aiReadyToAnalyze: 'Ready to analyze',
+        aiReadyDesc: 'characters of logs will be sent to',
+        aiReadyDesc2: 'for analysis.',
+        aiAnalyzing: 'Analyzing logs...',
+        aiAnalyzingDesc: 'This may take a few seconds',
+        aiAnalysisFailed: 'Analysis failed',
+        aiAnalysisBy: 'Analysis by',
+        aiChars: 'chars',
+        aiAnalyze: 'Analyze',
+        aiReanalyze: 'Re-analyze',
+        copy: 'Copy',
+        copied: 'Copied',
     },
     vi: {
         // Global
@@ -586,6 +606,26 @@ export const translations = {
         geminiKeyPlaceholder: 'AIza...',
         aiKeySaved: 'Đã lưu khóa API',
         aiKeyCleared: 'Đã xóa khóa API',
+
+        // AI Log Analysis Modal
+        aiLogAnalysis: 'Phân tích Log bằng AI',
+        experimental: 'THỬ NGHIỆM',
+        aiUsingProvider: 'Đang dùng',
+        aiNoKeyConfigured: 'Chưa cấu hình khóa AI',
+        aiNoKeyDesc: 'Vào Settings → AI API Keys và thêm khóa OpenAI, Anthropic hoặc Gemini để dùng tính năng này.',
+        aiExperimentalWarning: 'Tính năng đang thử nghiệm (Experimental). Kết quả phân tích do AI tạo ra có thể không chính xác. Không dùng thay thế cho việc debug thủ công. Log được gửi trực tiếp đến nhà cung cấp AI đã cấu hình.',
+        aiReadyToAnalyze: 'Sẵn sàng phân tích',
+        aiReadyDesc: 'ký tự log sẽ được gửi đến',
+        aiReadyDesc2: 'để phân tích.',
+        aiAnalyzing: 'Đang phân tích log...',
+        aiAnalyzingDesc: 'Quá trình này có thể mất vài giây',
+        aiAnalysisFailed: 'Phân tích thất bại',
+        aiAnalysisBy: 'Phân tích bởi',
+        aiChars: 'ký tự',
+        aiAnalyze: 'Phân tích',
+        aiReanalyze: 'Phân tích lại',
+        copy: 'Sao chép',
+        copied: 'Đã sao chép',
     },
 };
 

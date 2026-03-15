@@ -1,10 +1,28 @@
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 
+const RELEASE_VERSION = "1.0.0";
+const RELEASE_BASE_URL = "https://github.com/hoangnv170752/device-hub/releases/download/release-v1.0.0";
+
 const platforms = [
-  { name: "Windows", format: "EXE, MSI, ZIP", icon: "/win-svg.svg" },
-  { name: "macOS", format: "DMG", icon: "/apple-svg.svg" },
-  { name: "Linux", format: "DEB, AppImage", icon: "/linux-svg.svg" },
+  {
+    name: "Windows",
+    format: "EXE, MSI, ZIP",
+    icon: "/win-svg.svg",
+    downloadUrl: `${RELEASE_BASE_URL}/adbcompass-${RELEASE_VERSION}-windows-x64-setup.exe`,
+  },
+  {
+    name: "macOS",
+    format: "DMG",
+    icon: "/apple-svg.svg",
+    downloadUrl: `${RELEASE_BASE_URL}/adbcompass-${RELEASE_VERSION}-macos-arm64.dmg`,
+  },
+  {
+    name: "Linux",
+    format: "DEB, AppImage",
+    icon: "/linux-svg.svg",
+    downloadUrl: `${RELEASE_BASE_URL}/adbcompass-${RELEASE_VERSION}-linux-x64.AppImage`,
+  },
 ];
 
 const DownloadSection = () => {
@@ -24,8 +42,11 @@ const DownloadSection = () => {
 
         <div className="mx-auto mt-12 flex max-w-2xl flex-col items-center gap-4 sm:flex-row sm:justify-center">
           {platforms.map((platform, i) => (
-            <motion.button
+            <motion.a
               key={platform.name}
+              href={platform.downloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -38,7 +59,7 @@ const DownloadSection = () => {
                 <div className="font-semibold text-foreground">{platform.name}</div>
                 <div className="text-sm text-text-muted">{platform.format}</div>
               </div>
-            </motion.button>
+            </motion.a>
           ))}
         </div>
 
@@ -47,11 +68,24 @@ const DownloadSection = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="mt-8"
+          className="mt-8 flex flex-col items-center gap-2"
         >
-          <span className="inline-block rounded-full bg-surface-elevated px-4 py-2 font-mono text-sm text-text-muted">
-            v1.0.0
-          </span>
+          <a
+            href="https://github.com/hoangnv170752/device-hub/releases/tag/release-v1.0.0"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block rounded-full bg-surface-elevated px-4 py-2 font-mono text-sm text-text-muted transition-colors hover:text-foreground"
+          >
+            v{RELEASE_VERSION}
+          </a>
+          <a
+            href="https://github.com/hoangnv170752/device-hub/releases"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-text-muted underline-offset-4 hover:text-foreground hover:underline"
+          >
+            View all releases
+          </a>
         </motion.div>
       </Container>
     </section>

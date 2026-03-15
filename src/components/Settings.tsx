@@ -14,6 +14,10 @@ import { Select } from './ui/Select';
 import { check } from '@tauri-apps/plugin-updater';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
+import {
+    OPENAI_MODELS, ANTHROPIC_MODELS, GEMINI_MODELS,
+    DEFAULT_MODELS, type AiProvider,
+} from '../utils/aiService';
 
 interface SettingsProps {
     onBack: () => void;
@@ -31,6 +35,11 @@ export function Settings({ onBack }: SettingsProps) {
     const [anthropicKey, setAnthropicKey] = useState('');
     const [geminiKey, setGeminiKey] = useState('');
     const [showKeys, setShowKeys] = useState<Record<string, boolean>>({});
+
+    const [openaiModel, setOpenaiModel] = useState('');
+    const [anthropicModel, setAnthropicModel] = useState('');
+    const [geminiModel, setGeminiModel] = useState('');
+    const [customModelInput, setCustomModelInput] = useState<Record<string, string>>({});
 
     const { language, setLanguage, t } = useLanguage();
     const { theme, setTheme } = useTheme();
@@ -53,6 +62,17 @@ export function Settings({ onBack }: SettingsProps) {
         setOpenaiKey(localStorage.getItem('ai_key_openai') || '');
         setAnthropicKey(localStorage.getItem('ai_key_anthropic') || '');
         setGeminiKey(localStorage.getItem('ai_key_gemini') || '');
+
+        const loadModel = (provider: AiProvider, setter: (v: string) => void) => {
+            const stored = localStorage.getItem(`ai_model_${provider}`) || DEFAULT_MODELS[provider];
+            const allModels = { openai: OPENAI_MODELS, anthropic: ANTHROPIC_MODELS, gemini: GEMINI_MODELS }[provider];
+            const isKnown = allModels.some(m => m.value === stored);
+            setter(isKnown ? stored : '__custom__');
+            if (!isKnown) setCustomModelInput(prev => ({ ...prev, [provider]: stored }));
+        };
+        loadModel('openai', setOpenaiModel);
+        loadModel('anthropic', setAnthropicModel);
+        loadModel('gemini', setGeminiModel);
 
         if (storedCapturePath) {
             setCaptureSavePath(storedCapturePath);
@@ -374,7 +394,24 @@ export function Settings({ onBack }: SettingsProps) {
                             { id: 'openai',    label: t.openaiKey,    placeholder: t.openaiKeyPlaceholder,    value: openaiKey,    setter: setOpenaiKey },
                             { id: 'anthropic', label: t.anthropicKey, placeholder: t.anthropicKeyPlaceholder, value: anthropicKey, setter: setAnthropicKey },
                             { id: 'gemini',    label: t.geminiKey,    placeholder: t.geminiKeyPlaceholder,    value: geminiKey,    setter: setGeminiKey },
-                        ] as const).map(({ id, label, placeholder, value, setter }) => (
+                        ] as const).map(({ id, label, placeholder, value, setter }) => {
+                            const allModels = id === 'openai' ? OPENAI_MODELS : id === 'anthropic' ? ANTHROPIC_MODELS : GEMINI_MODELS;
+                            const modelVal = id === 'openai' ? openaiModel : id === 'anthropic' ? anthropicModel : geminiModel;
+                            const modelSetter = id === 'openai' ? setOpenaiModel : id === 'anthropic' ? setAnthropicModel : setGeminiModel;
+                            const handleModelChange = (val: string) => {
+                                modelSetter(val);
+                                if (val !== '__custom__') {
+                                    localStorage.setItem(`ai_model_${id}`, val);
+                                    toast.success(`Model saved: ${allModels.find(m => m.value === val)?.label || val}`);
+                                }
+                            };
+                            const handleCustomModelSave = () => {
+                                const custom = customModelInput[id]?.trim();
+                                if (!custom) return;
+                                localStorage.setItem(`ai_model_${id}`, custom);
+                                toast.success(`Custom model saved: ${custom}`);
+                            };
+                            return (
                             <div key={id} className={id !== 'openai' ? 'pt-5 border-t border-border/50' : ''}>
                                 <label className="block text-sm font-semibold text-text-primary mb-2">{label}</label>
                                 <div className="flex gap-2">
@@ -405,8 +442,39 @@ export function Settings({ onBack }: SettingsProps) {
                                         </button>
                                     )}
                                 </div>
+
+                                {/* Model selector */}
+                                <div className="mt-2">
+                                    <label className="block text-[11px] font-medium text-text-muted mb-1.5">Model</label>
+                                    <div className="flex gap-2">
+                                        <select
+                                            value={modelVal}
+                                            onChange={e => handleModelChange(e.target.value)}
+                                            className="flex-1 bg-surface-elevated border border-border rounded-xl px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 transition-all appearance-none cursor-pointer"
+                                        >
+                                            {allModels.map(m => (
+                                                <option key={m.value} value={m.value}>{m.label}</option>
+                                            ))}
+                                            <option value="__custom__">Custom model name...</option>
+                                        </select>
+                                        {modelVal === '__custom__' && (
+                                            <>
+                                                <input
+                                                    type="text"
+                                                    placeholder="e.g. gpt-4o-2024-11-20"
+                                                    value={customModelInput[id] || ''}
+                                                    onChange={e => setCustomModelInput(prev => ({ ...prev, [id]: e.target.value }))}
+                                                    onBlur={handleCustomModelSave}
+                                                    onKeyDown={e => e.key === 'Enter' && handleCustomModelSave()}
+                                                    className="flex-1 bg-surface-elevated border border-accent/40 rounded-xl px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 transition-all placeholder:text-text-muted/40 font-mono"
+                                                />
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </section>
 

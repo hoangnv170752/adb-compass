@@ -18,7 +18,7 @@ const Navigation = () => {
   const links = [
     { label: "Features", href: "#features" },
     { label: "Download", href: "#download" },
-    { label: "GitHub", href: "https://github.com/hoangnv170752/DeviceHub", external: true },
+    { label: "GitHub", href: "https://github.com/hoangnv170752/device-hub", external: true },
   ];
 
   return (
