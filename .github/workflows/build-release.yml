@@ -151,49 +151,49 @@ jobs:
 
           # Windows
           if [ "$PLATFORM" == "windows" ]; then
-            cp src-tauri/target/$TARGET/release/bundle/nsis/*.exe "release-artifacts/adbcompass-${VERSION}-windows-${ARCH}-setup.exe" 2>/dev/null || true
-            cp src-tauri/target/$TARGET/release/bundle/msi/*.msi "release-artifacts/adbcompass-${VERSION}-windows-${ARCH}.msi" 2>/dev/null || true
+            cp src-tauri/target/$TARGET/release/bundle/nsis/*.exe "release-artifacts/devicehub-${VERSION}-windows-${ARCH}-setup.exe" 2>/dev/null || true
+            cp src-tauri/target/$TARGET/release/bundle/msi/*.msi "release-artifacts/devicehub-${VERSION}-windows-${ARCH}.msi" 2>/dev/null || true
             
             # Find Windows Updater Bundle (Tauri may create .nsis.zip or .msi.zip)
             BUNDLE=$(find src-tauri/target/$TARGET/release/bundle -name "*.nsis.zip" -o -name "*.msi.zip" | head -n 1)
             if [ -n "$BUNDLE" ]; then
-              cp "$BUNDLE" "release-artifacts/adbcompass-${VERSION}-windows-${ARCH}-updater.zip"
+              cp "$BUNDLE" "release-artifacts/devicehub-${VERSION}-windows-${ARCH}-updater.zip"
             else
               # Fallback: Create updater bundle by zipping .msi file using 7z (available on Windows runner)
               MSI_FILE=$(find src-tauri/target/$TARGET/release/bundle -name "*.msi" | head -n 1)
               if [ -n "$MSI_FILE" ]; then
                 echo "Creating Windows updater bundle from .msi..."
-                7z a -tzip "release-artifacts/adbcompass-${VERSION}-windows-${ARCH}-updater.msi.zip" "$MSI_FILE"
+                7z a -tzip "release-artifacts/devicehub-${VERSION}-windows-${ARCH}-updater.msi.zip" "$MSI_FILE"
               fi
             fi
             
           # Linux
           elif [ "$PLATFORM" == "linux" ]; then
-            cp src-tauri/target/$TARGET/release/bundle/appimage/*.AppImage "release-artifacts/adbcompass-${VERSION}-linux-${ARCH}.AppImage" 2>/dev/null || true
-            cp src-tauri/target/$TARGET/release/bundle/deb/*.deb "release-artifacts/adbcompass-${VERSION}-linux-${ARCH}.deb" 2>/dev/null || true
+            cp src-tauri/target/$TARGET/release/bundle/appimage/*.AppImage "release-artifacts/devicehub-${VERSION}-linux-${ARCH}.AppImage" 2>/dev/null || true
+            cp src-tauri/target/$TARGET/release/bundle/deb/*.deb "release-artifacts/devicehub-${VERSION}-linux-${ARCH}.deb" 2>/dev/null || true
             
             # Find Linux Updater Bundle
             BUNDLE=$(find src-tauri/target/$TARGET/release/bundle -name "*.AppImage.tar.gz" | head -n 1)
             if [ -n "$BUNDLE" ]; then
-              cp "$BUNDLE" "release-artifacts/adbcompass-${VERSION}-linux-${ARCH}-updater.AppImage.tar.gz"
+              cp "$BUNDLE" "release-artifacts/devicehub-${VERSION}-linux-${ARCH}-updater.AppImage.tar.gz"
             else
               # Fallback: Create updater bundle by compressing .AppImage file
               APPIMAGE_FILE=$(find src-tauri/target/$TARGET/release/bundle -name "*.AppImage" | head -n 1)
               if [ -n "$APPIMAGE_FILE" ]; then
                 echo "Creating Linux updater bundle from .AppImage..."
                 APPIMAGE_NAME=$(basename "$APPIMAGE_FILE")
-                tar -czvf "release-artifacts/adbcompass-${VERSION}-linux-${ARCH}-updater.AppImage.tar.gz" -C "$(dirname "$APPIMAGE_FILE")" "$APPIMAGE_NAME"
+                tar -czvf "release-artifacts/devicehub-${VERSION}-linux-${ARCH}-updater.AppImage.tar.gz" -C "$(dirname "$APPIMAGE_FILE")" "$APPIMAGE_NAME"
               fi
             fi
 
           # macOS
           elif [ "$PLATFORM" == "macos" ]; then
-            cp src-tauri/target/$TARGET/release/bundle/dmg/*.dmg "release-artifacts/adbcompass-${VERSION}-macos-${ARCH}.dmg" 2>/dev/null || true
+            cp src-tauri/target/$TARGET/release/bundle/dmg/*.dmg "release-artifacts/devicehub-${VERSION}-macos-${ARCH}.dmg" 2>/dev/null || true
             
             # Find and rename macOS Updater Bundle
             BUNDLE=$(find src-tauri/target/$TARGET/release/bundle -name "*.app.tar.gz" | head -n 1)
             if [ -n "$BUNDLE" ]; then
-              cp "$BUNDLE" "release-artifacts/adbcompass-${VERSION}-macos-${ARCH}-updater.app.tar.gz"
+              cp "$BUNDLE" "release-artifacts/devicehub-${VERSION}-macos-${ARCH}-updater.app.tar.gz"
             fi
           fi
 
@@ -231,15 +231,15 @@ jobs:
               # Also create signature for our renamed updater files
               case "$binary_name" in
                 *_en-US.msi|*.msi)
-                  echo "$SIG_CONTENT" > "release-artifacts/adbcompass-${VERSION}-windows-${ARCH}-updater.msi.zip.sig.txt"
+                  echo "$SIG_CONTENT" > "release-artifacts/devicehub-${VERSION}-windows-${ARCH}-updater.msi.zip.sig.txt"
                   echo "Created Windows updater signature"
                   ;;
                 *.AppImage)
-                  echo "$SIG_CONTENT" > "release-artifacts/adbcompass-${VERSION}-linux-${ARCH}-updater.AppImage.tar.gz.sig.txt"
+                  echo "$SIG_CONTENT" > "release-artifacts/devicehub-${VERSION}-linux-${ARCH}-updater.AppImage.tar.gz.sig.txt"
                   echo "Created Linux updater signature"
                   ;;
                 *.app.tar.gz)
-                  echo "$SIG_CONTENT" > "release-artifacts/adbcompass-${VERSION}-macos-${ARCH}-updater.app.tar.gz.sig.txt"
+                  echo "$SIG_CONTENT" > "release-artifacts/devicehub-${VERSION}-macos-${ARCH}-updater.app.tar.gz.sig.txt"
                   echo "Created macOS updater signature"
                   ;;
               esac
@@ -270,8 +270,8 @@ jobs:
           ARCH: ${{ matrix.arch }}
           TARGET: ${{ matrix.target }}
         run: |
-          $portableExe = "release-artifacts/adbcompass-${env:VERSION}-windows-${env:ARCH}-portable.exe"
-          $zipFile = "release-artifacts/adbcompass-${env:VERSION}-windows-${env:ARCH}-portable.zip"
+          $portableExe = "release-artifacts/devicehub-${env:VERSION}-windows-${env:ARCH}-portable.exe"
+          $zipFile = "release-artifacts/devicehub-${env:VERSION}-windows-${env:ARCH}-portable.zip"
 
           # Debug: List what we have
           Write-Host "=== Contents of release-artifacts ==="
@@ -290,7 +290,7 @@ jobs:
             $candidates = @(
               "$releaseDir/DeviceHub.exe",
               "$releaseDir/adb-compass.exe", 
-              "$releaseDir/adbcompass.exe"
+              "$releaseDir/devicehub.exe"
             )
             foreach ($candidate in $candidates) {
               if (Test-Path $candidate) {
@@ -304,7 +304,7 @@ jobs:
           if (Test-Path $portableExe) {
             # Create temp folder and copy files
             New-Item -ItemType Directory -Force -Path "portable-temp" | Out-Null
-            Copy-Item $portableExe -Destination "portable-temp/adbcompass.exe"
+            Copy-Item $portableExe -Destination "portable-temp/devicehub.exe"
             
             # Bundle ALL DLLs from release folder (WebView2Loader.dll, etc.)
             $releaseDir = "src-tauri/target/${env:TARGET}/release"

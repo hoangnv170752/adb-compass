@@ -91,6 +91,7 @@ export function Settings({ onBack }: SettingsProps) {
     const languages = [
         { value: 'en', label: 'English', icon: <span className="text-xs">🇺🇸</span> },
         { value: 'vi', label: 'Tiếng Việt', icon: <span className="text-xs">🇻🇳</span> },
+        { value: 'fr', label: 'Français', icon: <span className="text-xs">🇫🇷</span> },
     ];
 
     const themes: { value: ThemeMode; icon: React.ReactNode; label: string }[] = [

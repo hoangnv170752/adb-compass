@@ -1,6 +1,6 @@
 [package]
 name = "devicehub"
-version = "1.0.0"
+version = "1.0.1"
 description = "DeviceHub"
 authors = ["hoangnv170752"]
 edition = "2021"
