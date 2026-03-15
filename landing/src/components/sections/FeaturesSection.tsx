@@ -1,9 +1,15 @@
 import { motion } from "framer-motion";
 import {
   Smartphone, Monitor, LayoutGrid, Package,
-  FolderOpen, Download, Terminal, Wifi, Layers
+  FolderOpen, Download, Terminal, Wifi, Layers, BrainCircuit
 } from "lucide-react";
 import Container from "@/components/layout/Container";
+
+const AI_FEATURE = {
+  icon: BrainCircuit,
+  title: "AI Log Analysis",
+  description: "Automatically analyze logcat logs using AI (OpenAI, Claude, Gemini). Identifies crashes, ANR, OOM, root causes, and actionable fix suggestions — exclusive to DeviceHub.",
+};
 
 const features = [
   {
@@ -71,7 +77,41 @@ const FeaturesSection = () => {
           </p>
         </motion.div>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5 }}
+          className="mt-16 rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/5 via-card to-secondary/5 p-8 shadow-lg ring-1 ring-primary/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+        >
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20">
+              <BrainCircuit size={28} className="text-primary" />
+            </div>
+            <div className="flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-xl font-bold text-foreground">{AI_FEATURE.title}</h3>
+                <span className="rounded-full border border-primary/40 bg-primary/10 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-primary">
+                  Exclusive
+                </span>
+                <span className="flex items-center gap-1 rounded-full border border-warning/40 bg-warning/10 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-warning">
+                  <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-warning" />
+                  Under Development
+                </span>
+              </div>
+              <p className="mt-2 text-base text-text-secondary">{AI_FEATURE.description}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["OpenAI GPT-4o", "Claude 3.5", "Gemini 2.0"].map((m) => (
+                  <span key={m} className="rounded-lg border border-border bg-surface-elevated px-3 py-1 text-xs font-medium text-text-muted">
+                    {m}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, i) => (
             <motion.div
               key={feature.title}

@@ -31,7 +31,7 @@ const TechStackSection = () => {
               transition={{ delay: i * 0.1 }}
               className="flex flex-col items-center gap-3 text-text-muted transition-all duration-200 hover:text-foreground"
             >
-              <img src={tech.icon} alt={tech.name} className="h-12 w-12 dark:invert dark:brightness-200" />
+              <img src={tech.icon} alt={tech.name} className="h-12 w-12 opacity-70 transition-opacity group-hover:opacity-100 dark:[filter:brightness(0)_invert(1)]" />
               <span className="text-sm font-medium">{tech.name}</span>
             </motion.div>
           ))}
