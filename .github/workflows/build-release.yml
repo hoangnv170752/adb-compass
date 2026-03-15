@@ -149,10 +149,19 @@ jobs:
           echo "=== Debug: Listing bundle directory ==="
           ls -R src-tauri/target/$TARGET/release/bundle || true
 
-          # Windows
+          # Windows - find files dynamically since Tauri may use different naming
           if [ "$PLATFORM" == "windows" ]; then
-            cp src-tauri/target/$TARGET/release/bundle/nsis/*.exe "release-artifacts/devicehub-${VERSION}-windows-${ARCH}-setup.exe" 2>/dev/null || true
-            cp src-tauri/target/$TARGET/release/bundle/msi/*.msi "release-artifacts/devicehub-${VERSION}-windows-${ARCH}.msi" 2>/dev/null || true
+            # Find and copy NSIS installer
+            NSIS_FILE=$(find src-tauri/target/$TARGET/release/bundle/nsis -name "*.exe" 2>/dev/null | head -n 1)
+            if [ -n "$NSIS_FILE" ]; then
+              cp "$NSIS_FILE" "release-artifacts/devicehub-${VERSION}-windows-${ARCH}-setup.exe"
+            fi
+
+            # Find and copy MSI installer
+            MSI_FILE=$(find src-tauri/target/$TARGET/release/bundle/msi -name "*.msi" 2>/dev/null | head -n 1)
+            if [ -n "$MSI_FILE" ]; then
+              cp "$MSI_FILE" "release-artifacts/devicehub-${VERSION}-windows-${ARCH}.msi"
+            fi
             
             # Find Windows Updater Bundle (Tauri may create .nsis.zip or .msi.zip)
             BUNDLE=$(find src-tauri/target/$TARGET/release/bundle -name "*.nsis.zip" -o -name "*.msi.zip" | head -n 1)
@@ -167,10 +176,19 @@ jobs:
               fi
             fi
             
-          # Linux
+          # Linux - find files dynamically
           elif [ "$PLATFORM" == "linux" ]; then
-            cp src-tauri/target/$TARGET/release/bundle/appimage/*.AppImage "release-artifacts/devicehub-${VERSION}-linux-${ARCH}.AppImage" 2>/dev/null || true
-            cp src-tauri/target/$TARGET/release/bundle/deb/*.deb "release-artifacts/devicehub-${VERSION}-linux-${ARCH}.deb" 2>/dev/null || true
+            # Find and copy AppImage
+            APPIMAGE_FILE=$(find src-tauri/target/$TARGET/release/bundle/appimage -name "*.AppImage" 2>/dev/null | head -n 1)
+            if [ -n "$APPIMAGE_FILE" ]; then
+              cp "$APPIMAGE_FILE" "release-artifacts/devicehub-${VERSION}-linux-${ARCH}.AppImage"
+            fi
+
+            # Find and copy DEB
+            DEB_FILE=$(find src-tauri/target/$TARGET/release/bundle/deb -name "*.deb" 2>/dev/null | head -n 1)
+            if [ -n "$DEB_FILE" ]; then
+              cp "$DEB_FILE" "release-artifacts/devicehub-${VERSION}-linux-${ARCH}.deb"
+            fi
             
             # Find Linux Updater Bundle
             BUNDLE=$(find src-tauri/target/$TARGET/release/bundle -name "*.AppImage.tar.gz" | head -n 1)
@@ -186,9 +204,13 @@ jobs:
               fi
             fi
 
-          # macOS
+          # macOS - find files dynamically
           elif [ "$PLATFORM" == "macos" ]; then
-            cp src-tauri/target/$TARGET/release/bundle/dmg/*.dmg "release-artifacts/devicehub-${VERSION}-macos-${ARCH}.dmg" 2>/dev/null || true
+            # Find and copy DMG
+            DMG_FILE=$(find src-tauri/target/$TARGET/release/bundle/dmg -name "*.dmg" 2>/dev/null | head -n 1)
+            if [ -n "$DMG_FILE" ]; then
+              cp "$DMG_FILE" "release-artifacts/devicehub-${VERSION}-macos-${ARCH}.dmg"
+            fi
             
             # Find and rename macOS Updater Bundle
             BUNDLE=$(find src-tauri/target/$TARGET/release/bundle -name "*.app.tar.gz" | head -n 1)
@@ -286,11 +308,11 @@ jobs:
             Write-Host "=== EXEs in release folder ==="
             Get-ChildItem "$releaseDir/*.exe" -ErrorAction SilentlyContinue | Format-Table Name, Length
             
-            # Try finding the main app exe
+            # Try finding the main app exe (check multiple possible names)
             $candidates = @(
               "$releaseDir/DeviceHub.exe",
-              "$releaseDir/adb-compass.exe", 
-              "$releaseDir/devicehub.exe"
+              "$releaseDir/devicehub.exe",
+              "$releaseDir/device-hub.exe"
             )
             foreach ($candidate in $candidates) {
               if (Test-Path $candidate) {

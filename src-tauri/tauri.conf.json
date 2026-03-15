@@ -1,8 +1,9 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "DeviceHub",
-  "version": "1.0.1",
-  "identifier": "com.h1dr0n.adbcompass",
+  "mainBinaryName": "DeviceHub",
+  "version": "1.0.2",
+  "identifier": "com.devicehub.app",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -47,7 +48,7 @@
   "plugins": {
     "updater": {
       "endpoints": [
-        "https://raw.githubusercontent.com/hoangnv170752/device-hub/main/updater.json"
+        "https://raw.githubusercontent.com/hoangnv170752/adb-compass/main/updater.json"
       ],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg2NUMyNTk3QkMwNkQ3NjAKUldSZzF3YThseVZjaG9LSEl5YW96Y3l5MzJKeDZabmF5c2V3UjNVVFBtUll1eUo5MnpiRjduaUoK"
     }
