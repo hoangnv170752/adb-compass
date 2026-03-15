@@ -47,7 +47,7 @@
   "plugins": {
     "updater": {
       "endpoints": [
-        "https://raw.githubusercontent.com/hoangnv170752/adb-compass/main/updater.json"
+        "https://raw.githubusercontent.com/hoangnv170752/device-hub/main/updater.json"
       ],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg2NUMyNTk3QkMwNkQ3NjAKUldSZzF3YThseVZjaG9LSEl5YW96Y3l5MzJKeDZabmF5c2V3UjNVVFBtUll1eUo5MnpiRjduaUoK"
     }
