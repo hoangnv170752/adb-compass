@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import Container from "@/components/layout/Container";
 
-const RELEASE_VERSION = "1.0.1";
-const RELEASE_BASE_URL = "https://github.com/hoangnv170752/device-hub/releases/download/release-v1.0.1";
+const RELEASE_VERSION = "2.0.0";
+const RELEASE_BASE_URL = "https://github.com/hoangnv170752/device-hub/releases/download/release-v2.0.0";
 
 const platforms = [
   {
@@ -71,7 +71,7 @@ const DownloadSection = () => {
           className="mt-8 flex flex-col items-center gap-2"
         >
           <a
-            href="https://github.com/hoangnv170752/device-hub/releases/tag/release-v1.0.1"
+            href="https://github.com/hoangnv170752/device-hub/releases/tag/release-v2.0.0"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block rounded-full bg-surface-elevated px-4 py-2 font-mono text-sm text-text-muted transition-colors hover:text-foreground"

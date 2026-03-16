@@ -1,8 +1,14 @@
 # DeviceHub
 
-A simple desktop app to install APK files on your Android devices.
+A modern, cross-platform Android device management tool.
 
 ![DeviceHub](https://img.shields.io/badge/Platform-Windows%20|%20macOS%20|%20Linux-blue)
+![Version](https://img.shields.io/badge/Version-2.0.0-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+<p align="center">
+  <img src="public/devicehub.png" alt="DeviceHub Screenshot" width="800"/>
+</p>
 
 ---
 
@@ -14,6 +20,9 @@ A simple desktop app to install APK files on your Android devices.
 - **Multi-device support** - Manage multiple phones at once
 - **Wireless ADB** - Connect over WiFi without USB cable
 - **Device tools** - Reboot, input text, file transfer, and more
+- **Screen capture** - Screenshot and screen recording
+- **AI Log Analysis** - Analyze logs with OpenAI, Claude, or Gemini
+- **Multi-language** - English, Vietnamese, French
 
 ---
 
