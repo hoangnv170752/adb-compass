@@ -512,22 +512,27 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Fetch latest hackathon branch and reset to it
+          git fetch origin hackathon
+          git checkout hackathon
+          git reset --hard origin/hackathon
+
+          # Copy the updated updater.json from detached HEAD
+          git checkout HEAD@{1} -- updater.json
+
           git add updater.json
-          
+
           # Only commit if there are actual changes
           if git diff --staged --quiet; then
             echo "No changes in updater.json to commit."
             exit 0
           fi
-          
+
           git commit -m "chore: update updater.json for version ${{ steps.get_version.outputs.version }} [skip ci]"
-          
-          # Fetch and rebase to avoid conflicts
-          git fetch origin main
-          git rebase origin/main
-          
-          # Push specifically from HEAD to remote main branch
-          git push origin HEAD:main
+
+          # Push to hackathon
+          git push origin hackathon
 
       - name: Prepare Release Files
         run: |
