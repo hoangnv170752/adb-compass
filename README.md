@@ -30,26 +30,24 @@ A modern, cross-platform Android device management tool.
 
 Download the latest version from the [Releases](https://github.com/user/adb-compass/releases) page:
 
-| Platform | Installer | Portable |
-|----------|-----------|----------|
-| Windows  | `.exe` or `.msi` | `.zip` |
-| macOS    | `.dmg` | - |
-| Linux    | `.deb` | `.AppImage` |
+| Platform | Installer            | Portable      |
+| -------- | -------------------- | ------------- |
+| Windows  | `.exe` or `.msi` | `.zip`      |
+| macOS    | `.dmg`             | -             |
+| Linux    | `.deb`             | `.AppImage` |
 
 ---
 
 ## Quick Start
 
 1. **Enable Developer Options** on your phone
+
    - Go to Settings > About Phone > Tap "Build Number" 7 times
-
 2. **Enable USB Debugging**
+
    - Go to Settings > Developer Options > Enable "USB Debugging"
-
 3. **Connect your phone** via USB cable
-
 4. **Accept the prompt** on your phone to allow USB debugging
-
 5. **Install your APK** - Select the file and click Install!
 
 ---
@@ -57,11 +55,13 @@ Download the latest version from the [Releases](https://github.com/user/adb-comp
 ## Troubleshooting
 
 ### Device not showing up?
+
 - Try unplugging and reconnecting the USB cable
 - Make sure USB Debugging is enabled
 - Accept the "Allow USB debugging?" prompt on your phone
 
 ### Installation failed?
+
 - Check the error message - usually it tells you what's wrong
 - Make sure you have enough storage space
 - Try uninstalling the existing app first
@@ -70,10 +70,10 @@ Download the latest version from the [Releases](https://github.com/user/adb-comp
 
 ## Documentation
 
-| Document | Description |
-|----------|-------------|
-| [Feature Roadmap](docs/FEATURES.md) | All features — implemented, in progress, and planned |
-| [Design System](docs/DESIGN.md) | Colors, typography, spacing, components, and UI architecture |
+| Document                         | Description                                                  |
+| -------------------------------- | ------------------------------------------------------------ |
+| [Feature Roadmap](docs/FEATURES.md) | All features — implemented, in progress, and planned        |
+| [Design System](docs/DESIGN.md)     | Colors, typography, spacing, components, and UI architecture |
 
 ---
 
