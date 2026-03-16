@@ -7,7 +7,7 @@ A modern, cross-platform Android device management tool.
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 <p align="center">
-  <img src="landing/public/home-light.png" alt="DeviceHub Screenshot" width="800"/>
+  <img src="landing/public/home_light.png" alt="DeviceHub Screenshot" width="800"/>
 </p>
 
 ---
